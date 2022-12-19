@@ -5,11 +5,12 @@ Neste repositório encontram-se os códigos realizados para a execução do rela
 
 ## Reator de Hidrogenação
 
-1. Maximização da função objetivo $\psi$ com otimização fin
+1. Maximização da função objetivo $\psi$ com otimização
 
 
 
-## Coluna de destilação a vácuo
+## Coluna de destilação de esgotamento a vácuo
 
-
++ Aplicação do método McCabe-Thiele
++ Dimenionamento da coluna de pratos
 
