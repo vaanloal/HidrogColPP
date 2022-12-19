@@ -7,7 +7,7 @@ Neste repositório encontram-se os códigos realizados para a execução do rela
 
 1. Maximização da função objetivo $\psi$ com otimização dinâmica + otimização do reator isotérmico para vários tempos de reação + Monte Carlo
 
-    ``fun``
+    ``ReactorNonIsothernal.m``
 
 2. Otimização do reator isotérmico para 2.5 horas de reação + Monte Carlo
 
@@ -26,6 +26,6 @@ Neste repositório encontram-se os códigos realizados para a execução do rela
 
 ## Coluna de destilação de esgotamento a vácuo
 
-+ Aplicação do método McCabe-Thiele + Dimensionamento da coluna de pratos: ``exemploEsgotamento``
++ Aplicação do método McCabe-Thiele + Dimensionamento da coluna de pratos: ``exemploEsgotamento.m``
 
 
