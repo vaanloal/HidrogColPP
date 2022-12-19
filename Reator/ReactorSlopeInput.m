@@ -157,7 +157,7 @@ frac = [0.309422684289359	0.0458880722748179	0.0625631193684445	0.28665519106049
 
 spec.HeadSpace = 0.2; %
 spec.TC = treaction + toutros; % h
-spec.TLplus = 13; % h
+spec.TLplus = 6.5; % h
 spec.ProducaoAnual = 4785; % ton/ano
 spec.SemanasAno = 48;
 spec.HorasDia = 24; % h
