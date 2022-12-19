@@ -15,12 +15,7 @@ Neste repositório encontram-se os códigos realizados para a execução do rela
 
 3. Minimização do tempo de reação para $\psi$ = 94\% + Monte Carlo.
 
-    ``fun``
-
-4. Comparação do modelo dinâmico com o perfil de temperaturas em rampa + Monte Carlo
-
-    ``fun``
-
+    ``ReactorNonIsothernal_opti_time.m``
 
 
 
