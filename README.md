@@ -11,6 +11,6 @@ Neste repositório encontram-se os códigos realizados para a execução do rela
 
 ## Coluna de destilação de esgotamento a vácuo
 
-+ Aplicação do método McCabe-Thiele
-+ Dimenionamento da coluna de pratos
++ Aplicação do método McCabe-Thiele + Dimenionamento da coluna de pratos: ``exemploEsgotamento``
+
 
