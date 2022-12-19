@@ -1,15 +1,6 @@
 clc; clear all; close all; format long
-% DESKTOP
-addpath("D:\Engenharia Química\5º Ano\Dissertação\CasADi Files\casadi_files_path_matlab")
-addpath("D:\Engenharia Química\5º Ano\ColorPlot")
-addpath("D:\Engenharia Química\5º Ano\Projeto de Processo\Codigos\propriedades\aux_fun")
 
-% LAPTOP
-% addpath("C:\Users\Vasco\Documents\5º Ano\Dissertação\CasADi Files\casadi_files_path_matlab")
-% addpath("C:\Users\Vasco\Documents\5º Ano\ColorPlot")
-% addpath("C:\Users\Vasco\Documents\5º Ano\Projeto de Processo\Codigos\propriedades\aux_fun")
-
-set(0, 'DefaultAxesColorOrder', brewermap(NaN, 'Dark2'))
+% addpath("aux_fun path")
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
 
 %%%%%%%% MAIN INPUTS %%%%%%%%
@@ -34,9 +25,9 @@ frac = [0.309422684289359	0.0458880722748179	0.0625631193684445	0.28665519106049
 % AA(1)   DIA(2) TEA(3) PAA(4)  DEA(5) NEA(6)  PIA(7) DPIAs(8)
 % Proporções dos Ácidos Resínicos
 
-spec.HeadSpace = 0.1; %
+spec.HeadSpace = 0.2; %
 spec.TC = treaction + toutros; % h
-spec.TLplus = 13; % h
+spec.TLplus = 6.5; % h
 spec.ProducaoAnual = 4785; % ton/ano
 spec.SemanasAno = 48;
 spec.HorasDia = 24; % h
@@ -73,15 +64,6 @@ x0_quench = [C0_quench, T0_quench]';
 
 options = odeset('Events', @(t, x) quenchingEvent(t, x, Tfiltro_halt));
 [t2, C2] = ode15s(@(t, x) rhs_quenching(t, x, par), [0, 5000], x0_quench, options);
-
-% tfinal = (m_mix * Cp_mix / (U_cooling * ReactorOut.Area_Camisa)) * log((150 - Tcoolant_degC)./(Tfiltro_halt_degC - Tcoolant_degC))
-
-% ESTIMAR CAUDAL DE ÁGUA NECESSÁRIO
-% Q_cooling = m_mix * Cp_mix * (T0_quench - Tfiltro)/1000; % kJ
-% T_agua_out = 50; % oC
-% T_agua_in  = 20; % oC
-% Cp_water = 4.186; % kJ/(kg.oC)
-% m_water = Q_cooling / (Cp_water * (T_agua_out - T_agua_in)); % kg
 
 t_all = [t1; t2(2:end) + t1(end)];
 C_all = [C1; C2(2:end, 1:end - 1)];
@@ -328,75 +310,3 @@ methods = {'fd'; 'scott'; 'sturges'};
     xlabel("t [h]")
 
     set(gca, "FontSize", 12)
-
-    % Criar função para fazer plot dos histogramas
-
-    plotHist(frac_store)
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %% Estabelecer um Rendimento(%) e Pureza(%) e obter a Temperatura(oC) e Tempo de reação(h) %%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Contabiliza a incerteza da composição da colofónia
-
-    no_runs = 750;
-
-    % Alocar memória
-    T_optimum = zeros(no_runs, 1);
-    time_reaction_optimum = zeros(no_runs, 1);
-    time_total_result = zeros(no_runs, 1);
-
-    PurezaGOAL = 92; % em percentagem
-    OBJGOAL = 92; % em percentagem
-
-    tic
-
-    for j = 1:no_runs
-        % Monte Carlo Loop
-
-        [frac] = getRandFrac();
-
-        fun = @(opti) OptimizeReactorIsoTime(opti, frac, spec);
-        T0_opti = 190; %Estimativa inicial oC
-        t0_opti = 3; %Estimativa inicial h
-        %     T   time(h)
-        lb = [Tmin; tr_min];
-        ub = [Tmax; tr_max];
-
-        nonlcon = @(opti) OptimizeReactorIsoTime_noncon(opti, frac, spec, PurezaGOAL, OBJGOAL);
-        [opti_res, fval] = fmincon(fun, [T0_opti; t0_opti], [], [], [], [], lb, ub, nonlcon, optimset('Display', 'off'));
-
-        T_optimum(j) = opti_res(1);
-        time_reaction_optimum(j) = opti_res(2);
-        time_total_result(j) = fval;
-        j
-    end
-
-    mc_optimize_time_temp = toc;
-
-    % idx = find(time_total_result>20);
-    %
-    % T_optimum(idx) = [];
-    % time_reaction_optimum(idx) = [];
-    % time_total_result(idx) = [];
-
-    figure(Color = "w")
-    tiledlayout("flow")
-    nexttile
-    h = histogram(T_optimum);
-    h.NumBins = 30;
-    xlabel("Temperatura [^oC]")
-    ylabel("Fequência")
-
-    nexttile
-    boxplot(T_optimum, Notch = "on");
-    ylabel("Temperatura [^oC]")
-
-    nexttile
-    h = histogram(time_total_result);
-    h.NumBins = 48;
-    ylabel("Fequência")
-    xlabel("Tempo Total [h]")
-
-    nexttile
-    boxplot(time_total_result, Notch = "on");
-    ylabel("Tempo Total [h]")

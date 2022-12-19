@@ -11,7 +11,7 @@ Neste repositório encontram-se os códigos realizados para a execução do rela
 
 2. Otimização do reator isotérmico para 2.5 horas de reação + Monte Carlo
 
-    ``fun``
+    ``ReactorIsothernal.m``
 
 3. Minimização do tempo de reação para $\psi$ = 94\% + Monte Carlo.
 
