@@ -1,16 +1,9 @@
 clc; clear all; close all; format long
 
-% DESKTOP
-% addpath("D:\Engenharia Química\5º Ano\Dissertação\CasADi Files\casadi_files_path_matlab")
-% addpath("D:\Engenharia Química\5º Ano\ColorPlot")
-% addpath("D:\Engenharia Química\5º Ano\Projeto de Processo\Codigos\propriedades\aux_fun")
+% Adicionar o CasADi ao path do Matlab
+% addpath("CasADi path")
+% addpath("aux_fun path")
 
-% LAPTOP
-addpath("C:\Users\Vasco\Documents\5º Ano\Dissertação\CasADi Files\casadi_files_path_matlab")
-addpath("C:\Users\Vasco\Documents\5º Ano\ColorPlot")
-addpath("C:\Users\Vasco\Documents\5º Ano\Projeto de Processo\Codigos\propriedades\aux_fun")
-
-set(0, 'DefaultAxesColorOrder', brewermap(NaN, 'Dark2'))
 set(groot, 'defaultAxesTickLabelInterpreter', 'latex');
 
 %%%%%%%% MAIN INPUTS %%%%%%%%
@@ -34,9 +27,9 @@ frac = [0.487772819 0.046512298 0.028606858 0.164908937 0.035763384 0.138086399 
 % AA(1)   DIA(2) TEA(3) PAA(4)  DEA(5) NEA(6)  PIA(7) DPIAs(8)
 % Proporções dos Ácidos Resínicos
 
-spec.HeadSpace = 0.1; %
+spec.HeadSpace = 0.2; %
 spec.TC = treaction + toutros; % h
-spec.TLplus = 13; % h
+spec.TLplus = 6.5; % h
 spec.ProducaoAnual = 4785; % ton/ano
 spec.SemanasAno = 48;
 spec.HorasDia = 24; % h
@@ -202,17 +195,3 @@ legend(Box = "off")
 ylabel("\psi, \eta (%)")
 xlabel("t [h]")
 set(gca, "FontSize", 12)
-
-%%
-index = 30;
-
-for i = 1:60
-    T_store(:, i) = reshape(Tstoredin(i, index, :), [], 1);
-end
-
-tgrid = linspace(0, tr_max, 100);
-
-figure(Color = "w")
-plot(tgrid, T_store(1:end - 1, :))
-
-save("60MC_non_ISO.mat")
